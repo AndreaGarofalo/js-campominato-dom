@@ -55,14 +55,27 @@ button.addEventListener("click", function () {
   console.log(difficulty);
   const grid = document.createElement("div");
   grid.setAttribute("id", "grid");
+
+  // preparo una variabile che tenga il punteggio dell'utente
+
+  let userScore = 0;
+
   // 3 creo un loop che crei le caselle
   for (let i = 1; i <= difficulty; i++) {
     const cell = createCell(i);
 
     // 4 creo un event listener che aggiunga la classe clicked alle varie caselle
     cell.addEventListener("click", () => {
-      cell.classList.toggle("clicked");
+      // faccio in modo che se la casella è già stata cliccata non aumento il punteggio dell'utente
+      if (!cell.classList.contains("clicked")) {
+        // aumento il punteggio dell'utente con ogni click
+        userScore++;
+        console.log("no");
+      }
+      cell.classList.add("clicked");
       console.log(i);
+
+      console.log(userScore);
     });
     cell.classList.add(select.value);
     grid.appendChild(cell);
