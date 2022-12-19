@@ -90,13 +90,20 @@ button.addEventListener("click", function () {
     // 4 creo un event listener che aggiunga la classe clicked alle varie caselle
     cell.addEventListener("click", () => {
       // faccio in modo che se la casella è già stata cliccata non aumento il punteggio dell'utente
-      if (!cell.classList.contains("clicked") && !bombs.includes(i)) {
+      if (
+        !cell.classList.contains("clicked") &&
+        !bombs.includes(i) &&
+        userScore < difficulty - 16
+      ) {
         // aumento il punteggio dell'utente con ogni click
         userScore++;
         cell.classList.add("clicked");
         console.log("no");
-      } else {
-        alert("hai preso la bomba");
+      } else if (userScore === difficulty - 16) {
+        userScore++;
+        alert("congratulazioni! hai vinto!");
+      } else if (bombs.includes(i)) {
+        alert(`hai preso la bomba! Il tuo punteggio è: ${userScore}`);
         cell.classList.add("exploded");
       }
       console.log(i);
