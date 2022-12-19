@@ -83,6 +83,9 @@ button.addEventListener("click", function () {
   // preparo una variabile che tenga il punteggio dell'utente
   let userScore = 0;
 
+  // preparo un flag per fermare il gioco
+  let isGameOver = false;
+
   // 3 creo un loop che crei le caselle
   for (let i = 1; i <= difficulty; i++) {
     const cell = createCell(i);
@@ -90,22 +93,26 @@ button.addEventListener("click", function () {
     // 4 creo un event listener che aggiunga la classe clicked alle varie caselle
     cell.addEventListener("click", () => {
       // faccio in modo che se la casella è già stata cliccata non aumento il punteggio dell'utente
-      if (
-        !cell.classList.contains("clicked") &&
-        !bombs.includes(i) &&
-        userScore < difficulty - 16
-      ) {
-        // aumento il punteggio dell'utente con ogni click
-        userScore++;
-        cell.classList.add("clicked");
-        console.log("no");
-      } else if (userScore === difficulty - 16) {
-        userScore++;
-        alert("congratulazioni! hai vinto!");
-      } else if (bombs.includes(i)) {
-        alert(`hai preso la bomba! Il tuo punteggio è: ${userScore}`);
-        cell.classList.add("exploded");
+      if (isGameOver === false) {
+        if (
+          !cell.classList.contains("clicked") &&
+          !bombs.includes(i) &&
+          userScore < difficulty - 16
+        ) {
+          // aumento il punteggio dell'utente con ogni click
+          userScore++;
+          cell.classList.add("clicked");
+        } else if (userScore === difficulty - 16) {
+          userScore++;
+          alert("congratulazioni! hai vinto!");
+          isGameOver = true;
+        } else if (bombs.includes(i)) {
+          alert(`hai preso la bomba! Il tuo punteggio è: ${userScore}`);
+          cell.classList.add("exploded");
+          isGameOver = true;
+        }
       }
+      console.log(difficulty);
       console.log(i);
       console.log(userScore);
     });
