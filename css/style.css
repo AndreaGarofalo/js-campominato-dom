@@ -32,6 +32,9 @@ h1 {
 .cell.clicked {
   background-color: aqua;
 }
+.cell.exploded {
+  background-color: red;
+}
 
 .easy {
   width: calc(100% / 10);

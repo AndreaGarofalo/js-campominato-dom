@@ -69,17 +69,15 @@ button.addEventListener("click", function () {
   const grid = document.createElement("div");
   grid.setAttribute("id", "grid");
 
-  const extractedNumbers = [];
+  // creo una variabile che contenga i numeri già estratti
+  const bombs = [];
+
   // creo un loop che mi generi 16 numeri casuali a cui poi assegnare la classe bomba
   for (let i = 0; i < 16; i++) {
-    const numbers = randomUniqueNumber(
-      1,
-      cellsDifficulty[select.value],
-      extractedNumbers
-    );
-    extractedNumbers.push(numbers);
-    console.log(numbers);
-    console.log(extractedNumbers);
+    const numbers = randomUniqueNumber(1, cellsDifficulty[select.value], bombs);
+    bombs.push(numbers);
+
+    console.log(bombs);
   }
 
   // preparo una variabile che tenga il punteggio dell'utente
@@ -92,12 +90,15 @@ button.addEventListener("click", function () {
     // 4 creo un event listener che aggiunga la classe clicked alle varie caselle
     cell.addEventListener("click", () => {
       // faccio in modo che se la casella è già stata cliccata non aumento il punteggio dell'utente
-      if (!cell.classList.contains("clicked")) {
+      if (!cell.classList.contains("clicked") && !bombs.includes(i)) {
         // aumento il punteggio dell'utente con ogni click
         userScore++;
+        cell.classList.add("clicked");
         console.log("no");
+      } else {
+        alert("hai preso la bomba");
+        cell.classList.add("exploded");
       }
-      cell.classList.add("clicked");
       console.log(i);
       console.log(userScore);
     });
