@@ -24,13 +24,12 @@ console.log("JS OK");
 // - difficoltà 2 ⇒ 81 caselle, con un numero compreso tra 1 e 81, divise in 9 caselle per 9 righe;
 // - difficoltà 3 ⇒ 49 caselle, con un numero compreso tra 1 e 49, divise in 7 caselle per 7 righe;
 
-// 3.5 creo una funzione che crei le caselle
-const createCell = (content) => {
-  const cell = document.createElement("div");
-  cell.classList.add("cell");
-  cell.append(content);
-  return cell;
-};
+// 1 prendo gli elementi dal dom
+const container = document.getElementById("custom-container");
+const button = document.getElementById("button");
+const title = document.getElementById("title");
+const select = document.getElementById("difficult-select");
+
 // creo un oggetto con i valori di difficoltà
 
 const cellsDifficulty = {
@@ -39,11 +38,25 @@ const cellsDifficulty = {
   hard: 49,
 };
 
-// 1 prendo gli elementi dal dom
-const container = document.getElementById("custom-container");
-const button = document.getElementById("button");
-const title = document.getElementById("title");
-const select = document.getElementById("difficult-select");
+// 3.5 creo una funzione che crei le caselle
+const createCell = (content) => {
+  const cell = document.createElement("div");
+  cell.classList.add("cell");
+  cell.append(content);
+  return cell;
+};
+
+// creo una funzione per generare numeri casuali che non si ripetano
+
+const randomUniqueNumber = (min, max, blacklist) => {
+  let randomNumber;
+
+  do {
+    randomNumber = Math.floor(Math.random() * (max + 1 - min)) + min;
+  } while (blacklist.includes(randomNumber));
+
+  return randomNumber;
+};
 
 // 2 creo un event listener collegato al bottone
 button.addEventListener("click", function () {
@@ -56,8 +69,20 @@ button.addEventListener("click", function () {
   const grid = document.createElement("div");
   grid.setAttribute("id", "grid");
 
-  // preparo una variabile che tenga il punteggio dell'utente
+  const extractedNumbers = [];
+  // creo un loop che mi generi 16 numeri casuali a cui poi assegnare la classe bomba
+  for (let i = 0; i < 16; i++) {
+    const numbers = randomUniqueNumber(
+      1,
+      cellsDifficulty[select.value],
+      extractedNumbers
+    );
+    extractedNumbers.push(numbers);
+    console.log(numbers);
+    console.log(extractedNumbers);
+  }
 
+  // preparo una variabile che tenga il punteggio dell'utente
   let userScore = 0;
 
   // 3 creo un loop che crei le caselle
@@ -74,9 +99,9 @@ button.addEventListener("click", function () {
       }
       cell.classList.add("clicked");
       console.log(i);
-
       console.log(userScore);
     });
+
     cell.classList.add(select.value);
     grid.appendChild(cell);
     title && title.remove();
